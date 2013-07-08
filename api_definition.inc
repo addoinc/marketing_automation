@@ -188,4 +188,210 @@ $MarketingAutomationAPI = array(
     ),
   ),
 
+  // Contact Segment
+  'ContactSegment' => array(
+    'getMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false)
+    ),
+    'getSummaryMultiple' => array(
+    ),
+    'deleteOne' => array(
+      'contact_segment_id' => array('required' => true),
+    ),
+    'setDefault' => array(
+      'contact_segment_id' => array('required' => true),
+    ),
+    'getContactIds' => array(
+      'contact_segment_id' => array('required' => true),
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+    ),
+    'getContactParticipation' => array(
+      'contact_segment_id' => array('required' => true),
+      'contact_id' => array('required' => true),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+    ),
+    'getFolderLeaves' => array(
+      'folder_id' => array('required' => true),
+      'blnIsRoot' => array('required' => false),
+      'order_by' => array('required' => false, 'default' => ''),
+      'order_dir' => array('required' => false, 'default' => 'ASC'),
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  // Visit
+  'ContactActivityHistory' => array(
+    'getMineMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'overlay_id' => array('required' => true),
+      'domain_group_id' => array('required' => true),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+      'filters' => array('required' => false)
+    ),
+    'getAnonymousMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'overlay_id' => array('required' => true),
+      'domain_group_id' => array('required' => true),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+      'filters' => array('required' => false)
+    ),
+    'getAllMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'overlay_id' => array('required' => true),
+      'contact_segment_id' => array('required' => true),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+      'filters' => array('required' => false)
+    ),
+    'getUnsegmentedContactDetail' => array(
+      'contact_id' => array('required' => true),
+      'domain_group_id' => array('required' => true),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+    ),
+    'getContactDetail' => array(
+      'contact_id' => array('required' => true),
+      'contact_segment_id' => array('required' => true),
+      'start_date' => array('required' => true),
+      'stop_date' => array('required' => true),
+    ),
+    'getFirstVisit' => array(
+      'contact_id' => array('required' => true),
+      'contact_segment_id' => array('required' => true),
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  // Folder Email List
+  'FolderEmailList' => array(
+    'getMultiple' => array(
+    ),
+    'deleteOne' => array(
+      'folder_id' => array('required' => true),
+    ),
+    'getFolderTree' => array(
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  // Report
+  'Report' => array(
+    'getMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false)
+    ),
+    'getOne' => array(
+      'report_id' => array('required' => true),
+    ),
+    'setOne' => array(
+      'report' => array('required' => true),
+    ),
+    'deleteOne' => array(
+      'report_id' => array('required' => true),
+    ),
+    'enableOne' => array(
+      'report_id' => array('required' => true),
+    ),
+    'disableOne' => array(
+      'report_id' => array('required' => true),
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  // User
+  'User' => array(
+    'getSessionId' => array(
+      'username' => array('required' => true),
+      'password' => array('required' => true),
+    ),
+    'isDefaultContactSegmentId' => array(
+      'contact_segment_id' => array('required' => true),
+    ),
+    'setOne' => array(
+      'user' => array('required' => true),
+    ),
+    'getOneByEmail' => array(
+      'email' => array('required' => true),
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  // Lead Score Overlay
+  'LeadScoreOverlay' => array(
+    'getMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false)
+    ),
+    'getOne' => array(
+      'lead_score_overlay_id' => array('required' => true),
+    ),
+    'getDefault' => array(
+    ),
+    'getAll' => array(
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  // Lead Status
+  'LeadStatus' => array(
+    'getMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => ''),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false)
+    ),
+    'deleteOne' => array(
+      'lead_status_id' => array('required' => true),
+    ),
+    'getResultsPerPage' => array(
+      'intResultsPerPage' => array('required' => true),
+      'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+
 );
