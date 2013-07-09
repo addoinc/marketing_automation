@@ -2,8 +2,8 @@
 
 /**
  * @file
- * This file contains generatic class for EmailList controller and its methods
- * Look at more details at http://apps.net-results.com/api/v2/rpc/documentation.php#controller=EmailList
+ * This file contains MarketingAutomationAPI which will call API functions by validating the required parameters.
+ * Look at more details at http://apps.net-results.com/api/v2/rpc/documentation.php#controller=Welcome
  */
 
 
@@ -11,20 +11,34 @@ require_once 'marketing_automation_core.inc';
 
 
 /**
- * The EmailList controller class
- * Before using this make sure to configure automatr username and password at
- *  automatr configuration path admin/config/marketing/automatr/settings
+ * The MarketingAutomationAPI class
+ * Before using this make sure you have username and password to call API
  * Usage:
- * $email_list_obj = new MarketingAutomationAPI();
- * $result = $email_list_obj->call_method('Controller', 'Method', $params);
+ * $obj = new MarketingAutomationAPI('username', 'password');
+ * $result = $obj->call_method('Controller', 'Method', $params);
  */
 class MarketingAutomationAPI extends MarketingAutomation {
 
-
+  /**
+   * Call the method of API and return the output
+   * @param string $controller
+   * @param string $method
+   * @param string $params
+   *  Key value pairs of parameters.
+   *  This function will include api_definition and check if any required
+   *  parameter is missed or not and if any required parameter is missed
+   *  If it has default value, it will pass the default value.
+   */
   public function call_method($controller, $method, $params = array()) {
 
+    // The above file will include variable $MarketingAutomationAPI
     require 'api_definition.inc';
+
+    // Get the properties details of the respecting controller method
     $method_props = $MarketingAutomationAPI[$controller][$method];
+
+    // Check if any required parameters missed
+    // Assign the default values if not provided
     $missed_required_params = array();
     foreach ($method_props as $param => $props) {
       if ($props['required'] && !array_key_exists($param, $params)) {
@@ -35,6 +49,8 @@ class MarketingAutomationAPI extends MarketingAutomation {
         }
       }
     }
+
+    // If no required parameters are missed then do request
     if (empty($missed_required_params)) {
       return $this->do_request($controller, $method, $params);
     } else {
@@ -42,6 +58,5 @@ class MarketingAutomationAPI extends MarketingAutomation {
       throw new Exception($error_msg);
     }
   }
-
 
 }

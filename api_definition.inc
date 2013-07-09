@@ -2,11 +2,10 @@
 
 /**
  * @file
- * This file contains entire API definition.
+ * This file contains entire API definition with its parameter details.
  */
 
 define('LIMIT_VALUE', 50);
-define('DEFAULT_RESULTS_PER_PAGE', 50);
 
 $MarketingAutomationAPI = array(
    // Email List
