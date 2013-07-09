@@ -106,7 +106,7 @@ $MarketingAutomationAPI = array(
     'getMultiple' => array(
       'offset' => array('required' => true, 'default' => 0),
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
-      'order_by' => array('required' => true, 'default' => ''),
+      'order_by' => array('required' => true, 'default' => 'custom_attribute'),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
       'filters' => array('required' => false)
     ),
@@ -193,7 +193,7 @@ $MarketingAutomationAPI = array(
     'getMultiple' => array(
       'offset' => array('required' => true, 'default' => 0),
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
-      'order_by' => array('required' => true, 'default' => ''),
+      'order_by' => array('required' => true, 'default' => 'contact_segment_name'),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
       'filters' => array('required' => false)
     ),
@@ -231,7 +231,7 @@ $MarketingAutomationAPI = array(
   ),
 
   // Visit
-  'ContactActivityHistory' => array(
+  'Visit' => array(
     'getMineMultiple' => array(
       'offset' => array('required' => true, 'default' => 0),
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
@@ -259,7 +259,6 @@ $MarketingAutomationAPI = array(
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
       'order_by' => array('required' => true, 'default' => ''),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
-      'overlay_id' => array('required' => true),
       'contact_segment_id' => array('required' => true),
       'start_date' => array('required' => true),
       'stop_date' => array('required' => true),
@@ -307,7 +306,7 @@ $MarketingAutomationAPI = array(
     'getMultiple' => array(
       'offset' => array('required' => true, 'default' => 0),
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
-      'order_by' => array('required' => true, 'default' => ''),
+      'order_by' => array('required' => true, 'default' => 'report_name'),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
       'filters' => array('required' => false)
     ),

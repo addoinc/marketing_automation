@@ -23,8 +23,7 @@ class MarketingAutomationAPI extends MarketingAutomation {
 
   public function call_method($controller, $method, $params = array()) {
 
-    require_once 'api_definition.inc';
-
+    require 'api_definition.inc';
     $method_props = $MarketingAutomationAPI[$controller][$method];
     $missed_required_params = array();
     foreach ($method_props as $param => $props) {
@@ -36,7 +35,6 @@ class MarketingAutomationAPI extends MarketingAutomation {
         }
       }
     }
-
     if (empty($missed_required_params)) {
       return $this->do_request($controller, $method, $params);
     } else {
