@@ -54,6 +54,9 @@ class MarketingAutomation {
     return false;
   }
 
+  public function get_sessionid() {
+    return $this->session_id;
+  }
 
   /**
    * Do request to api and return the output
