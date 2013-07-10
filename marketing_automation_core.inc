@@ -6,6 +6,68 @@
  *
  */
 
+if (!function_exists('curl_init')) {
+  throw new Exception('Marketing Automation needs the CURL PHP extension.');
+}
+if (!function_exists('json_decode')) {
+  throw new Exception('Marketing Automation needs the JSON PHP extension.');
+}
+
+/**
+ * Thrown when an API call returns an exception.
+ *
+ */
+class MarketingAutomationApiException extends Exception
+{
+  /**
+   * The result from the API server that represents the exception information.
+   */
+  protected $result;
+
+  /**
+   * Make a new API Exception with the given result.
+   *
+   * @param array $result The result from the API server
+   */
+  public function __construct($result) {
+    $this->result = $result;
+
+    $code = isset($result['code']) ? $result['code'] : 0;
+
+    if (isset($result['message'])) {
+      $msg = $result['message'];
+    } else if (isset($result['data'])) {
+      $msg = $result['data'];
+    } else {
+      $msg = 'Unknown Error. Check getResult()';
+    }
+
+    parent::__construct($msg, $code);
+  }
+
+  /**
+   * Return the associated result object returned by the API server.
+   *
+   * @return array The result from the API server
+   */
+  public function getResult() {
+    return $this->result;
+  }
+
+  /**
+   * To make debugging easier.
+   *
+   * @return string The string representation of the error
+   */
+  public function __toString() {
+    $str = 'Exception ';
+    if ($this->code != 0) {
+      $str .= $this->code . ': ';
+    }
+    return $str . $this->message;
+  }
+}
+
 
 /**
  * The Marketing Automation API class.
@@ -133,14 +195,30 @@ class MarketingAutomation {
     // Execute curl
     $response = curl_exec($ch);
     if ($response === false) {
-      $error_msg = 'Error executing the curl request' . ' ' . curl_errno($ch) . ' : ' . curl_error($ch);
-      throw new Exception($error_msg);
+      $e = new MarketingAutomationApiException(array(
+             'code' => curl_errno($ch),
+             'message' => curl_error($ch),
+      ));
+      throw $e;
     }
 
     // Decode reponse
     $response = json_decode($response);
+    if (!isset($response->result) && isset($response->code)) {
+      $e = new MarketingAutomationApiException(array(
+             'code' => $response->code,
+             'message' => $response->message,
+             'data' => $response->data
+      ));
+      throw $e;
+    }
     if (isset($response->error)) {
-      throw new Exception($response->error->message);
+      $e = new MarketingAutomationApiException(array(
+             'code' => $response->error->code,
+             'message' => $response->error->message,
+             'data' => $response->error->data
+      ));
+      throw $e;
     }
 
     // Close curl connection
