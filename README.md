@@ -6,6 +6,7 @@ Requirements
 ------------
 1. PHP 5.3+
 2. PHP CURL
+3. PHP JSON Extension
 3. Username, Password to access the API // Todo: Update information about how to get these.
 
 Usage
