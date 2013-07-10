@@ -167,6 +167,8 @@ $MarketingAutomationAPI = array(
       'intResultsPerPage' => array('required' => true),
       'arrAllowed' => array('required' => false),
     ),
+    'submitContactImport' => array(
+    ),
   ),
 
   // Contact Activity History
