@@ -393,5 +393,12 @@ $MarketingAutomationAPI = array(
     ),
   ),
 
-
+  // Domain Group
+  'DomainGroup' => array(
+    'getAll' => array(
+    ),
+    'getResultsPerPage' => array(
+       'intResultsPerPage' => array('required' => true, 'default' => LIMIT_VALUE),
+       'arrAllowed' => array('required' => true),
+  ),
 );
