@@ -5,7 +5,10 @@
  * This file contains entire API definition with its parameter details.
  */
 
-define('LIMIT_VALUE', 50);
+if (!defined('LIMIT_VALUE')) {
+  define('LIMIT_VALUE', 50);
+}
+
 
 $MarketingAutomationAPI = array(
    // Email List
