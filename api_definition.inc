@@ -30,7 +30,7 @@ $MarketingAutomationAPI = array(
       'order_dir' => array('required' => false, 'default' => 'ASC'),
     ),
     'setOne' => array(
-      'email_list' => array('reauired' => true)
+      'email_list' => array('required' => true)
     ),
     'getContactParticipation' => array(
       'email_list_id' => array('required' => true),
