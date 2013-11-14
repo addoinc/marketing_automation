@@ -9,7 +9,6 @@ if (!defined('LIMIT_VALUE')) {
   define('LIMIT_VALUE', 50);
 }
 
-
 $MarketingAutomationAPI = array(
    // Email List
   'EmailList' => array(
@@ -385,7 +384,6 @@ $MarketingAutomationAPI = array(
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
       'order_by' => array('required' => true, 'default' => ''),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
-      'filters' => array('required' => false)
     ),
     'deleteOne' => array(
       'lead_status_id' => array('required' => true),
@@ -393,6 +391,67 @@ $MarketingAutomationAPI = array(
     'getResultsPerPage' => array(
       'intResultsPerPage' => array('required' => true),
       'arrAllowed' => array('required' => false),
+    ),
+  ),
+
+  //Campaign
+  'Campaign' => array(
+    'getMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' =>'campaign_name'),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false)
+    ),
+    'getOne' => array(
+      'campaign_id' => array('required' => true),
+    ),
+    'deleteOne' => array(
+      'campaign_id' => array('required' => true),
+    ),
+    'getFolderLeaves' => array(
+      'folder_id' => array('required' => true),
+      'blnIsRoot' => array('required' => false),
+      'order_by' => array('required' => true, 'default' =>'campaign_name'),
+      'order_dir' => array('required' => false),
+    ),
+  ),
+
+  //Campaign Statistics
+  'CampaignStatistics' => array(
+    'getMultiple' => array(
+      'from_date' => array('required' => true),
+      'to_date' => array('required' => true),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'sort_by' => array('required' => true, 'default' =>'campaign_name'),
+      'sort_dir' => array('required' => true, 'default' => 'ASC'),
+    ),
+    'getOne' => array(
+      'campaign_id' => array('required' => true),
+      'from_date' => array('required' => true),
+      'to_date' => array('required' => true),
+    ),
+    'getTotal' => array(
+      'from_date' => array('required' => true),
+      'to_date' => array('required' => true),
+    ),
+    'getDomains' => array(
+      'from_date' => array('required' => true),
+      'to_date' => array('required' => true),
+      'campaign_id' => array('required' => true),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'sort_by' => array('required' => true, 'default' =>'campaign_name'),
+      'sort_dir' => array('required' => true, 'default' => 'ASC'),
+      'offset' => array('required' => true, 'default' => 0),
+    ),
+    'getLinks' => array(
+      'from_date' => array('required' => true),
+      'to_date' => array('required' => true),
+      'campaign_id' => array('required' => true),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'sort_by' => array('required' => true, 'default' =>'campaign_name'),
+      'sort_dir' => array('required' => true, 'default' => 'ASC'),
+      'offset' => array('required' => true, 'default' => 0),
     ),
   ),
 
