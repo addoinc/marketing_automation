@@ -121,12 +121,14 @@ class MarketingAutomation {
     $method = 'getSessionId';
     $params = array('username' => $username, 'password' => $password);
     $response = $this->_do_request($controller, $method, $params, FALSE);
-    if ($response->result) {
-      // Once authentication is success, store the session id for future reference
-      $this->session_id = $response->result;
-      $this->auth_id = $response->id;
-      return TRUE;
-    }
+		if(!empty($response)) {
+			if ($response->result) {
+				// Once authentication is success, store the session id for future reference
+				$this->session_id = $response->result;
+				$this->auth_id = $response->id;
+				return TRUE;
+			}
+		}
     return FALSE;
   }
 
