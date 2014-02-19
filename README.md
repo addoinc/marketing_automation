@@ -36,3 +36,5 @@ $params = array('offset' => 51, 'limit' => 50, 'order_by' => 'email_list_name', 
 $email_lists = $obj->call_method('EmailList', 'getMultiple', $params);
 
 ```
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/5688d1da3b95ff27bde5eab25c39f7e0 "githalytics.com")](http://githalytics.com/azri/marketing_automation)
