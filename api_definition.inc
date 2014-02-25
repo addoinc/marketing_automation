@@ -76,7 +76,7 @@ $MarketingAutomationAPI = array(
     'getMultiple' => array(
       'offset' => array('required' => true, 'default' => 0),
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
-      'order_by' => array('required' => true, 'default' => ''),
+      'order_by' => array('required' => true, 'default' => 'email_name'),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
       'filters' => array('required' => false)
     ),
@@ -87,7 +87,7 @@ $MarketingAutomationAPI = array(
     'getFolderLeaves' => array(
       'folder_id' => array('required' => true),
       'blnIsRoot' => array('required' => false),
-      'order_by' => array('required' => false, 'default' => ''),
+      'order_by' => array('required' => false, 'default' => 'email_name'),
       'order_dir' => array('required' => false, 'default' => 'ASC'),
     ),
     'submitSessionContent' => array(
@@ -464,4 +464,19 @@ $MarketingAutomationAPI = array(
        'arrAllowed' => array('required' => true),
     ),
   ),
+  // Conversation
+  'Conversation' => array(
+    'getMineMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' =>'conversation_id'),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false)
+    ),
+    'sendEmail' => array(
+       'email_id' => array('required' => true),
+       'contact_id' => array('required' => true),
+    ),
+  ),
+
 );
