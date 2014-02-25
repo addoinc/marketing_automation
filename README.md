@@ -1,5 +1,5 @@
 marketing_automation
-====================
+=====================
 This is a marketing automation API.
 
 Requirements
