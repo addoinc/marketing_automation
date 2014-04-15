@@ -118,6 +118,7 @@ class MarketingAutomation {
    */
   private function authenticate($username, $password) {
     if (isset($_SESSION['automatr_session_id'])) {
+      $this->session_id = $_SESSION['automatr_session_id'];
       return TRUE;
     }
     $controller = 'User';
