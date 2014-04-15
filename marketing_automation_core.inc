@@ -117,6 +117,9 @@ class MarketingAutomation {
    *  Returns TRUE with authentication is success else returns FALSE
    */
   private function authenticate($username, $password) {
+    if (isset($_SESSION['automatr_session_id'])) {
+      return TRUE;
+    }
     $controller = 'User';
     $method = 'getSessionId';
     $params = array('username' => $username, 'password' => $password);
@@ -125,6 +128,7 @@ class MarketingAutomation {
 			if ($response->result) {
 				// Once authentication is success, store the session id for future reference
 				$this->session_id = $response->result;
+				$_SESSION['automatr_session_id'] = $response->result;
 				$this->auth_id = $response->id;
 				return TRUE;
 			}
