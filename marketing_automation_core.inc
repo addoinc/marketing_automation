@@ -6,9 +6,6 @@
  *
  */
 
-if (!function_exists('curl_init')) {
-  throw new Exception('Marketing Automation needs the CURL PHP extension.');
-}
 if (!function_exists('json_decode')) {
   throw new Exception('Marketing Automation needs the JSON PHP extension.');
 }
@@ -87,8 +84,8 @@ class MarketingAutomation {
   private $session_id = NULL;
   private $auth_id = NULL;
 
-  // API end point as per the url http://apps.net-results.com/api/v2/rpc/documentation.php#controller=Welcome
-  private $endpoint = 'https://apps.net-results.com/api/v2/rpc/server.php';
+  // API end point as per the url https://a.volacciapp.com/api/v2/rpc/documentation.php#controller=Welcome
+  private $endpoint = 'https://a.volacciapp.com/api/v2/rpc/server.php';
 
   /**
    * Constructor function which will authenticate username, password to access API
@@ -117,14 +114,14 @@ class MarketingAutomation {
    *  Returns TRUE with authentication is success else returns FALSE
    */
   private function authenticate($username, $password) {
-    if (isset($_SESSION['automatr_session_id'])) {
+    if (isset($_SESSION['automatr_session_id']) && $_SESSION['automatr_session_id'] != NULL) {
       $this->session_id = $_SESSION['automatr_session_id'];
       return TRUE;
     }
     $controller = 'User';
     $method = 'getSessionId';
     $params = array('username' => $username, 'password' => $password);
-    $response = $this->_do_request($controller, $method, $params, FALSE);
+    $response = $this->_do_request($controller, $method, $params);
 		if(!empty($response)) {
 			if ($response->result) {
 				// Once authentication is success, store the session id for future reference
@@ -155,12 +152,105 @@ class MarketingAutomation {
    * @return
    *  Returns json object of API response.
    */
-  public function do_request($controller, $method, $params) {
+  public function do_request($controller, $method, $params, $call_type = '_do_request_curl') {
     if (empty($this->login_username) || empty($this->login_password)) {
       throw new Exception('Authentication details are not provided, please provide valid authentication details');
     }
     $args = func_get_args();
-    return call_user_func_array(array($this, '_do_request'), $args);
+    return call_user_func_array(array($this, $call_type), $args);
+  }
+
+  /**
+   * Private function which will do drupal_http_request request and call the API function
+   * @param string $controller
+   * @param string $method
+   * @param array $params
+   *   Key value pairs of parameters to API call
+   * @return
+   *   Returns json object of API response
+   */
+  private function _do_request_drupal_http($controller, $method, $params) {
+    if (!function_exists('drupal_http_request')) {
+      throw new Exception('Marketing Automation needs the CURL PHP extension.');
+    }
+
+    // build endpoint url
+    if ($controller == 'User' && $method == 'getSessionId') {
+      $url = $this->endpoint . '?' . 'Controller=' . $controller;
+    }
+    else {
+      $url = $this->endpoint . '?' . 'Controller=' . $controller . '&strSessionId=' . $this->session_id;
+    }
+
+    $json_params = array(
+      'id' => uniqid(),
+      'method' => $method,
+      'jsonrpc' => $this->jsonrpc_version,
+      'params' => $params,
+    );
+    $options = array(
+      'method' => 'POST',
+      'data' => json_encode($json_params),
+      'timeout' => 15,
+      'max_redirects' => 10,
+      'headers' => array('Content-Type' => 'application/json', 'Accept' => 'application/json'),
+    );
+    $response = drupal_http_request($url, $options);
+
+    if (isset($response->code)) {
+      switch($response->code) {
+      case 401 :
+	drupal_set_message('Authentication failed');
+	$e = new MarketingAutomationApiException(array(
+			 'code' => $response->code,
+			 'message' => $response->data,
+	      ));
+	$this->session_id = NULL;
+	if (isset($_SESSION['automatr_session_id'])) {
+	  unset($_SESSION['automatr_session_id']);
+	}
+	throw $e;
+	break;
+      case 404 :
+      case 500 :
+	$e = new MarketingAutomationApiException(array(
+			 'code' => $response->code,
+			 'message' => $response->data,
+	      ));
+	throw $e;
+	break;
+      case 200 :
+      //We are good. Nothing much to do here.
+      break;
+      default :
+	$e = new MarketingAutomationApiException(array(
+			 'code' => $response->code,
+			 'message' => 'Something went wrong very badly',
+	      ));
+	throw $e;
+	break;
+      }
+    }
+
+    // Decode reponse
+    $response = json_decode($response->data);
+    if (!isset($response->result) && isset($response->code)) {
+      $e = new MarketingAutomationApiException(array(
+             'code' => $response->code,
+             'message' => $response->message,
+             'data' => $response->data
+      ));
+      throw $e;
+    }
+    if (isset($response->error)) {
+      $e = new MarketingAutomationApiException(array(
+             'code' => $response->error->code,
+             'message' => $response->error->message,
+             'data' => $response->error->data
+      ));
+      throw $e;
+    }
+    return $response;
   }
 
   /**
@@ -177,7 +267,11 @@ class MarketingAutomation {
    * @return
    *   Returns json object of API response
    */
-  private function _do_request($controller, $method, $params, $pass_login_details = TRUE) {
+  private function _do_request_curl($controller, $method, $params, $pass_login_details = TRUE) {
+    if (!function_exists('curl_init')) {
+      throw new Exception('Marketing Automation needs the CURL PHP extension.');
+    }
+
     // build endpoint url
     $url = $this->endpoint . '?' . 'Controller=' . $controller;
 
@@ -233,6 +327,5 @@ class MarketingAutomation {
 
     return $response;
   }
-
 }
 
