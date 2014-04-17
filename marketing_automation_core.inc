@@ -93,9 +93,9 @@ class MarketingAutomation {
    * @param string $username
    * @param string $password
    */
-  function __construct($username, $password) {
+  function __construct($username, $password, $call_type = '_do_request_curl') {
     // Login details
-    if ($this->authenticate($username, $password)) {
+    if ($this->authenticate($username, $password, $call_type)) {
       $this->login_username = $username;
       $this->login_password = $password;
     } else {
@@ -113,7 +113,7 @@ class MarketingAutomation {
    * @return bool
    *  Returns TRUE with authentication is success else returns FALSE
    */
-  private function authenticate($username, $password) {
+  private function authenticate($username, $password, $call_type = '_do_request_curl') {
     if (isset($_SESSION['automatr_session_id']) && $_SESSION['automatr_session_id'] != NULL) {
       $this->session_id = $_SESSION['automatr_session_id'];
       return TRUE;
@@ -121,7 +121,7 @@ class MarketingAutomation {
     $controller = 'User';
     $method = 'getSessionId';
     $params = array('username' => $username, 'password' => $password);
-    $response = $this->_do_request($controller, $method, $params);
+    $response = $this->_do_request_drupal_http($controller, $method, $params);
 		if(!empty($response)) {
 			if ($response->result) {
 				// Once authentication is success, store the session id for future reference
