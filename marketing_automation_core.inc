@@ -78,6 +78,7 @@ class MarketingAutomation {
   // Will be initiallized in constructor
   private $login_username;
   private $login_password;
+  private $call_type = '_curl';
   private $jsonrpc_version = '2.0';
 
   // These values will be updated after successfull authentication
@@ -144,6 +145,32 @@ class MarketingAutomation {
   }
 
   /**
+   * Returns endpoint for the API
+   * @return
+   *  String with endpoint
+   */
+  public function get_end_point() {
+    return $this->endpoint;
+  }
+
+  /**
+   * Returns Final Url for the current API Call
+   * @return
+   *  String with final url
+   */
+  public function build_url($controller, $method) {
+    $url = '';
+    if ($controller == 'User' && $method == 'getSessionId') {
+      $url = $this->endpoint . '?' . 'Controller=' . $controller;
+    }
+    else {
+      $url = $this->endpoint . '?' . 'Controller=' . $controller . '&strSessionId=' . $this->session_id;
+    }
+    return $url;
+  }
+
+
+  /**
    * Do request to api and return the output
    * @param string $controller
    * @param string $method
@@ -175,22 +202,17 @@ class MarketingAutomation {
     }
 
     // build endpoint url
-    if ($controller == 'User' && $method == 'getSessionId') {
-      $url = $this->endpoint . '?' . 'Controller=' . $controller;
-    }
-    else {
-      $url = $this->endpoint . '?' . 'Controller=' . $controller . '&strSessionId=' . $this->session_id;
-    }
-
+    $url = $this->build_url($controller, $method);
     $json_params = array(
       'id' => uniqid(),
       'method' => $method,
-      'jsonrpc' => $this->jsonrpc_version,
       'params' => $params,
     );
+    $encoded_json_params = json_encode($json_params);
+    //dpm($encoded_json_params);
     $options = array(
       'method' => 'POST',
-      'data' => json_encode($json_params),
+      'data' => $encoded_json_params,
       'timeout' => 15,
       'max_redirects' => 10,
       'headers' => array('Content-Type' => 'application/json', 'Accept' => 'application/json'),
@@ -234,6 +256,7 @@ class MarketingAutomation {
 
     // Decode reponse
     $response = json_decode($response->data);
+    //dpm($response);
     if (!isset($response->result) && isset($response->code)) {
       $e = new MarketingAutomationApiException(array(
              'code' => $response->code,
