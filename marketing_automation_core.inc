@@ -257,6 +257,7 @@ class MarketingAutomation {
     // Decode reponse
     $response = json_decode($response->data);
     //dpm($response);
+    /**
     if (!isset($response->result) && isset($response->code)) {
       $e = new MarketingAutomationApiException(array(
              'code' => $response->code,
@@ -273,6 +274,7 @@ class MarketingAutomation {
       ));
       throw $e;
     }
+    **/
     return $response;
   }
 
