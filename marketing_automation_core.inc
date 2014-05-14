@@ -329,6 +329,7 @@ class MarketingAutomation {
     }
 
     // Decode reponse
+    /**
     $response = json_decode($response);
     if (!isset($response->result) && isset($response->code)) {
       $e = new MarketingAutomationApiException(array(
@@ -346,6 +347,7 @@ class MarketingAutomation {
       ));
       throw $e;
     }
+    **/
 
     // Close curl connection
     curl_close($ch);
