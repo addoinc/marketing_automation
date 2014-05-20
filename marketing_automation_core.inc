@@ -179,7 +179,7 @@ class MarketingAutomation {
    * @return
    *  Returns json object of API response.
    */
-  public function do_request($controller, $method, $params, $call_type = '_do_request_curl') {
+  public function do_request($controller, $method, $params, $call_type = '_do_request_curl', $unique_id = NULL) {
     if (empty($this->login_username) || empty($this->login_password)) {
       throw new Exception('Authentication details are not provided, please provide valid authentication details');
     }
@@ -196,15 +196,17 @@ class MarketingAutomation {
    * @return
    *   Returns json object of API response
    */
-  private function _do_request_drupal_http($controller, $method, $params) {
+  private function _do_request_drupal_http($controller, $method, $params, $call_type, $unique_id) {
     if (!function_exists('drupal_http_request')) {
       throw new Exception('Marketing Automation needs the CURL PHP extension.');
     }
-
+    if ($unique_id == NULL) {
+      $unique_id = uniqid();
+    }
     // build endpoint url
     $url = $this->build_url($controller, $method);
     $json_params = array(
-      'id' => uniqid(),
+      'id' => $unique_id,
       'method' => $method,
       'params' => $params,
     );

@@ -29,7 +29,7 @@ class MarketingAutomationAPI extends MarketingAutomation {
    *  parameter is missed or not and if any required parameter is missed
    *  If it has default value, it will pass the default value.
    */
-  public function call_method($controller, $method, $params = array(), $call_type = '_do_request_curl') {
+  public function call_method($controller, $method, $params = array(), $call_type = '_do_request_curl', $unique_id = NULL) {
     // The above file will include variable $MarketingAutomationAPI
     require 'api_definition.inc';
 
@@ -51,7 +51,7 @@ class MarketingAutomationAPI extends MarketingAutomation {
 
     // If no required parameters are missed then do request
     if (empty($missed_required_params)) {
-      return $this->do_request($controller, $method, $params, $call_type);
+      return $this->do_request($controller, $method, $params, $call_type, $unique_id);
     } else {
       $error_msg = 'Controller : ' . $controller . ', Method : ' . $method . ', Error message : Missed required parameters ' . implode(', ', $missed_required_params);
       throw new Exception($error_msg);
