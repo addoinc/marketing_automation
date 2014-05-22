@@ -122,7 +122,12 @@ class MarketingAutomation {
     $controller = 'User';
     $method = 'getSessionId';
     $params = array('username' => $username, 'password' => $password);
-    $response = $this->_do_request_drupal_http($controller, $method, $params);
+    if ($call_type == '_do_request_curl') {
+      $response = $this->_do_request_curl($controller, $method, $params, FALSE);
+    }
+    else {
+      $response = $this->_do_request_drupal_http($controller, $method, $params);
+    }
 		if(!empty($response)) {
 			if ($response->result) {
 				// Once authentication is success, store the session id for future reference
@@ -183,8 +188,12 @@ class MarketingAutomation {
     if (empty($this->login_username) || empty($this->login_password)) {
       throw new Exception('Authentication details are not provided, please provide valid authentication details');
     }
-    $args = func_get_args();
-    return call_user_func_array(array($this, $call_type), $args);
+    if ($call_type == '_do_request_curl') {
+      return $this->_do_request_curl($controller, $method, $params, TRUE, $unique_id) ;
+    }
+    else{
+      return $this->_do_request_drupal_http($controller, $method, $params, '_do_request_drupal_http', $unique_id);
+    }
   }
 
   /**
@@ -196,7 +205,7 @@ class MarketingAutomation {
    * @return
    *   Returns json object of API response
    */
-  private function _do_request_drupal_http($controller, $method, $params, $call_type, $unique_id) {
+  private function _do_request_drupal_http($controller, $method, $params, $unique_id = NULL) {
     if (!function_exists('drupal_http_request')) {
       throw new Exception('Marketing Automation needs the CURL PHP extension.');
     }
@@ -294,7 +303,7 @@ class MarketingAutomation {
    * @return
    *   Returns json object of API response
    */
-  private function _do_request_curl($controller, $method, $params, $pass_login_details = TRUE) {
+  private function _do_request_curl($controller, $method, $params, $pass_login_details = TRUE, $unique_id = NULL) {
     if (!function_exists('curl_init')) {
       throw new Exception('Marketing Automation needs the CURL PHP extension.');
     }
@@ -310,8 +319,11 @@ class MarketingAutomation {
     if ($pass_login_details) {
       curl_setopt($ch, CURLOPT_USERPWD, $this->login_username . ':' . $this->login_password);
     }
+    if ($unique_id == NULL) {
+      $unique_id = uniqid();
+      }
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
-          'id' => uniqid(),
+          'id' => $unique_id,
           'method' => $method,
           'jsonrpc' => $this->jsonrpc_version,
           'params' => $params,
