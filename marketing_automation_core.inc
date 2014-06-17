@@ -192,7 +192,7 @@ class MarketingAutomation {
       return $this->_do_request_curl($controller, $method, $params, TRUE, $unique_id) ;
     }
     else{
-      return $this->_do_request_drupal_http($controller, $method, $params, '_do_request_drupal_http', $unique_id);
+      return $this->_do_request_drupal_http($controller, $method, $params, $unique_id);
     }
   }
 
