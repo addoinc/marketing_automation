@@ -33,9 +33,11 @@ class MarketingAutomationApiException extends Exception
 
     if (isset($result['message'])) {
       $msg = $result['message'];
-    } else if (isset($result['data'])) {
+    }
+    else if (isset($result['data'])) {
       $msg = $result['data'];
-    } else {
+    }
+    else {
       $msg = 'Unknown Error. Check getResult()';
     }
 
@@ -75,7 +77,7 @@ class MarketingAutomationApiException extends Exception
 class MarketingAutomation {
 
   // Marketing authentication details
-  // Will be initiallized in constructor
+  // Will be initialized in constructor
   private $login_username;
   private $login_password;
   private $call_type = '_curl';
@@ -220,7 +222,6 @@ class MarketingAutomation {
       'params' => $params,
     );
     $encoded_json_params = json_encode($json_params);
-    //dpm($encoded_json_params);
     $options = array(
       'method' => 'POST',
       'data' => $encoded_json_params,
@@ -267,25 +268,6 @@ class MarketingAutomation {
 
     // Decode reponse
     $response = json_decode($response->data);
-    //dpm($response);
-    /**
-    if (!isset($response->result) && isset($response->code)) {
-      $e = new MarketingAutomationApiException(array(
-             'code' => $response->code,
-             'message' => $response->message,
-             'data' => $response->data
-      ));
-      throw $e;
-    }
-    if (isset($response->error)) {
-      $e = new MarketingAutomationApiException(array(
-             'code' => $response->error->code,
-             'message' => $response->error->message,
-             'data' => $response->error->data
-      ));
-      throw $e;
-    }
-    **/
     return $response;
   }
 
@@ -341,27 +323,6 @@ class MarketingAutomation {
       ));
       throw $e;
     }
-
-    // Decode reponse
-    /**
-    $response = json_decode($response);
-    if (!isset($response->result) && isset($response->code)) {
-      $e = new MarketingAutomationApiException(array(
-             'code' => $response->code,
-             'message' => $response->message,
-             'data' => $response->data
-      ));
-      throw $e;
-    }
-    if (isset($response->error)) {
-      $e = new MarketingAutomationApiException(array(
-             'code' => $response->error->code,
-             'message' => $response->error->message,
-             'data' => $response->error->data
-      ));
-      throw $e;
-    }
-    **/
 
     // Close curl connection
     curl_close($ch);
