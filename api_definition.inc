@@ -39,6 +39,11 @@ $MarketingAutomationAPI = array(
       'intResultsPerPage' => array('required' => true),
       'arrAllowed' => array('required' => false),
     ),
+    'deleteFolder' => array(
+      'folder_id' => array('required' => true),
+    ),
+    'getFolderTree' => array(
+    ),
   ),
 
   // Alert
@@ -181,7 +186,7 @@ $MarketingAutomationAPI = array(
       'limit' => array('required' => true, 'default' => LIMIT_VALUE),
       'order_by' => array('required' => true, 'default' => ''),
       'order_dir' => array('required' => true, 'default' => 'ASC'),
-      'filters' => array('required' => false)
+      'options' => array('required' => false)
     ),
     'getTypes' => array(
     ),
@@ -282,21 +287,6 @@ $MarketingAutomationAPI = array(
     'getFirstVisit' => array(
       'contact_id' => array('required' => true),
       'contact_segment_id' => array('required' => true),
-    ),
-    'getResultsPerPage' => array(
-      'intResultsPerPage' => array('required' => true),
-      'arrAllowed' => array('required' => false),
-    ),
-  ),
-
-  // Folder Email List
-  'FolderEmailList' => array(
-    'getMultiple' => array(
-    ),
-    'deleteOne' => array(
-      'folder_id' => array('required' => true),
-    ),
-    'getFolderTree' => array(
     ),
     'getResultsPerPage' => array(
       'intResultsPerPage' => array('required' => true),
@@ -462,6 +452,18 @@ $MarketingAutomationAPI = array(
     'getResultsPerPage' => array(
        'intResultsPerPage' => array('required' => true, 'default' => LIMIT_VALUE),
        'arrAllowed' => array('required' => true),
+    ),
+  ),
+  // ContactImport
+  'ContactImport' => array(
+    'setOne' => array(
+    ),
+    'getMultiple' => array(
+      'offset' => array('required' => true, 'default' => 0),
+      'limit' => array('required' => true, 'default' => LIMIT_VALUE),
+      'order_by' => array('required' => true, 'default' => 'contact_import_create_date'),
+      'order_dir' => array('required' => true, 'default' => 'ASC'),
+      'filters' => array('required' => false),
     ),
   ),
   // Conversation
