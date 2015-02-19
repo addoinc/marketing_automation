@@ -246,24 +246,32 @@ class MarketingAutomation {
 	throw $e;
 	break;
       case 404 :
+        $e = new MarketingAutomationApiException(array(
+             'code' => $response->code,
+             'message' => $response->data,
+              ));
+        throw $e;
+        break;
+
       case 500 :
-	$e = new MarketingAutomationApiException(array(
-			 'code' => $response->code,
-			 'message' => $response->data,
-	      ));
-	throw $e;
-	break;
+        $e = new MarketingAutomationApiException(array(
+             'code' => '500',
+             'message' => 'Server is Down',
+              ));
+        throw $e;
+        break;
+
       case 200 :
       //We are good. Nothing much to do here.
       break;
       default :
-	$e = new MarketingAutomationApiException(array(
-			 'code' => $response->code,
-			 'message' => 'Something went wrong very badly',
-	      ));
-	throw $e;
-	break;
-      }
+      	$e = new MarketingAutomationApiException(array(
+      			 'code' => $response->code,
+      			 'message' => 'Something went wrong very badly',
+      	      ));
+      	throw $e;
+      	break;
+            }
     }
 
     // Decode reponse
