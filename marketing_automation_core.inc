@@ -245,7 +245,15 @@ class MarketingAutomation {
 	}
 	throw $e;
 	break;
+      case 400 :
+      case 401 :
+      case 402 :
+      case 403 :
       case 404 :
+      case 405 :
+      case 406 :
+      case 407 :
+      case 408 :
         $e = new MarketingAutomationApiException(array(
              'code' => $response->code,
              'message' => $response->data,
@@ -254,6 +262,11 @@ class MarketingAutomation {
         break;
 
       case 500 :
+      case 501 :
+      case 502 :
+      case 503 :
+      case 504 :
+      case 505 :
         $e = new MarketingAutomationApiException(array(
              'code' => '500',
              'message' => 'Server is Down',
@@ -262,6 +275,16 @@ class MarketingAutomation {
         break;
 
       case 200 :
+      case 201 :
+      case 202 :
+      case 203 :
+      case 204 :
+      case 205 :
+      case 206 :
+      case 207 :
+      case 208 :
+      case 226 :
+
       //We are good. Nothing much to do here.
       break;
       default :
